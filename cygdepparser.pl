@@ -24,7 +24,6 @@ my $content = <$infile>;
 # Split the contents (delimited by double \n) into individual pkg dependencies
 my @pkg_deps = split(/\n\s*\n/, $content);
 for my $pkg_dep (@pkg_deps) {
-    $pkg_dep =~ s/\t/    /g;           #tab creates weirdness in printing
     my @lines = split(/\n/, $pkg_dep);
     @lines == 3 or die 'Expected only 3 lines per pkg dependency info, got '
                         . scalar(@lines) .  ". Something's wonky\n";
