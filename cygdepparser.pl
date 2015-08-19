@@ -9,9 +9,11 @@ use English;
 use GraphViz;
 
 my $infilename;
+my $outfilename = 'cyg_dependency.svg';
 
 if (@ARGV) {
     $infilename = shift;
+    $outfilename = ($infilename =~ s/(\.txt)?$/.svg/r);
 }
 elsif (-e 'input.txt') {
     $infilename = 'input.txt';
@@ -49,5 +51,6 @@ for my $pkg_dep (@pkg_deps) {
     $gr->add_edge($_ => $pkg_name) foreach (@dependants);
 }
 
-$gr->as_svg('cyg_dependency.svg');
+print "Writing to $outfilename\n";
+$gr->as_svg($outfilename);
 
