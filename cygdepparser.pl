@@ -23,7 +23,7 @@ open my $infile, '<', $infilename;
 local $INPUT_RECORD_SEPARATOR;
 my $content = <$infile>;
 
-my $gr = GraphViz->new();
+my $gr = GraphViz->new(rankdir => 1, epsilon => 0.001);
 
 # Split the contents (delimited by double \n) into individual pkg dependencies
 my @pkg_deps = split(/\n\s*\n/, $content);
@@ -41,6 +41,8 @@ for my $pkg_dep (@pkg_deps) {
     my @dependants = split(/, /, $pkg_dependants);
 
     #GraphViz ignores this if node already exists, so no need for check
+    #And if this node had been previously added by add_edge call, this call
+    #changes it into a plaintext node. How cool is that!
     $gr->add_node($pkg_name, shape => 'plaintext'); 
     $gr->add_edge($_ => $pkg_name) foreach (@dependants);
 }
