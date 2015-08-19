@@ -40,10 +40,9 @@ for my $pkg_dep (@pkg_deps) {
     $pkg_dependants =~ s/^\s+Required by: //;
     my @dependants = split(/, /, $pkg_dependants);
 
-    print "$pkg_name is required by @dependants\n";
     #GraphViz ignores this if node already exists, so no need for check
-    $gr->add_node($pkg_name); 
-    $gr->add_edge($_) foreach (@dependants);
+    $gr->add_node($pkg_name, shape => 'plaintext'); 
+    $gr->add_edge($_ => $pkg_name) foreach (@dependants);
 }
 
 $gr->as_svg('cyg_dependency.svg');
