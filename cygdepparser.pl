@@ -27,7 +27,9 @@ open my $infile, '<', $infilename;
 local $INPUT_RECORD_SEPARATOR;
 my $content = <$infile>;
 
-my $gr = GraphViz->new(rankdir => 1, epsilon => 0.001);
+my $gr = GraphViz->new(rankdir => 1,    #left-to-right graph arrows
+                       epsilon => 0.001, #take your time with layout processing
+                       name => 'Cygwin_dependency_graph'); #title, no spaces or dots
 
 # Split the contents (delimited by double \n) into individual pkg dependencies
 my @pkg_deps = split(/\n\s*\n/, $content);
@@ -45,10 +47,13 @@ for my $pkg_dep (@pkg_deps) {
     my @dependants = split(/, /, $pkg_dependants);
 
     #GraphViz ignores this add_node if node already exists, so no need for check
-    #And if this node had been previously added by add_edge call, this call
-    #changes it into a plaintext node. How cool is that!
-    $gr->add_node($pkg_name, shape => 'plaintext'); 
-    $gr->add_edge($_ => $pkg_name) foreach (@dependants);
+    #And if this node had been previously added with empty tooltip, this call
+    #adds tooltip and changes it into a plaintext node. How cool is that!
+    $gr->add_node($pkg_name, shape => 'plaintext', tooltip => $pkg_desc);
+    foreach (@dependants) {
+        $gr->add_node($_, tooltip => ' '); #prevent default tooltip `nodeNN`
+        $gr->add_edge($_ => $pkg_name);
+    }
 }
 
 print "Writing to $outfilename\n";
