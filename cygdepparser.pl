@@ -1,4 +1,6 @@
 #!perl
+#This Free software is licensed under WTFPL
+#Full license text at http://www.wtfpl.net/about/
 
 use strict;
 use warnings;
@@ -40,7 +42,7 @@ for my $pkg_dep (@pkg_deps) {
     $pkg_dependants =~ s/^\s+Required by: //;
     my @dependants = split(/, /, $pkg_dependants);
 
-    #GraphViz ignores this if node already exists, so no need for check
+    #GraphViz ignores this add_node if node already exists, so no need for check
     #And if this node had been previously added by add_edge call, this call
     #changes it into a plaintext node. How cool is that!
     $gr->add_node($pkg_name, shape => 'plaintext'); 
