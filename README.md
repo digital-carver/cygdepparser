@@ -1,6 +1,8 @@
-When you try to uninstall stuff from Cygwin, it might present you with a list of other packages which claim to depend on what you're uninstalling. If you're trying to uninstall a bunch of packages, it can get pretty confusing as to what depends on what and where the dependency chain actually starts. So, this script reads such a list, and generates a graph that shows the dependencies among the listed packages, which could help you decide what you want to go back and add to the Uninstall list, and which of the to-be-uninstalled stuff you want to keep after all. 
+When you try to uninstall stuff from Cygwin, it might present you with a list of other packages which claim to depend on what you're uninstalling. If you're trying to uninstall a bunch of packages, it can get pretty confusing as to what depends on what and where the dependency chain actually starts.
 
-A trivial example:
+This script reads such a list, and generates a graph that shows the dependencies among the listed packages, which could help you decide which ones you want to go back and add to the Uninstall list, and which of the to-be-uninstalled stuff you want to keep after all. 
+
+A trivial example case:
 
 ```
 libpangox1.0-devel	(0.0.2-1)
